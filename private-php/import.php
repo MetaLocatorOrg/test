@@ -181,7 +181,7 @@ echo str_repeat("=", 50) . "\n\n";
 log_message("Starting import process...", $config);
 
 // Read CSV file
-$csvPath = __DIR__ . '/' . $config['csv_file'];
+$csvPath = __DIR__ . 'import.php/' . $config['csv_file'];
 log_message("Reading CSV file: " . $csvPath, $config);
 $locations = read_csv_file($csvPath);
 log_message("Found " . count($locations) . " locations to import", $config);

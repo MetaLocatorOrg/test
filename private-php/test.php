@@ -32,7 +32,7 @@ $requiredFiles = [
 ];
 
 foreach ($requiredFiles as $file) {
-    if (!file_exists(__DIR__ . '/' . $file)) {
+    if (!file_exists(__DIR__ . 'test.php/' . $file)) {
         echo "   ✗ FAIL: Missing file: $file\n";
         exit(1);
     }
