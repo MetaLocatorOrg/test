@@ -1,0 +1,13 @@
+.svn
+.idea
+.vscode
+.env
+.DS_Store
+*.pem
+*.ppk
+node_modules/
+.vagrant/
+/vendor/
+/nohup.out
+/yarn.lock
+/cachegrind/*

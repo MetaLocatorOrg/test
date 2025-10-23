@@ -1,0 +1,8 @@
+{
+  "apiKey": "YOUR_API_KEY_HERE",
+  "itemId": "YOUR_ITEM_ID_HERE",
+  "apiBaseUrl": "https://metalocator.com/webapi/api",
+  "rateLimitPerMinute": 60,
+  "defaultRadius": 25,
+  "defaultLimit": 10
+}
