@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Styling - MetaLocator Examples</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>MetaLocator JavaScript Installation Examples</h1>
+    </header>
+    
+    <nav class="navigation">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="simple-install.html">Simple Install</a></li>
+            <li><a href="nearby-widget.html">Nearby Widget</a></li>
+            <li><a href="deep-linking.html">Deep Linking</a></li>
+            <li><a href="custom-styling.html" class="active">Custom Styling</a></li>
+            <li><a href="advanced-config.html">Advanced Configuration</a></li>
+        </ul>
+    </nav>
+    
+    <main class="content">
+        <section class="code-section">
+            <h2>Custom Styling</h2>
+            <p>MetaLocator can be styled to match your website's design using custom CSS. This allows you to maintain brand consistency and create a seamless user experience.</p>
+            
+            <h3>Basic Styling Override</h3>
+            <p>Add custom CSS after the MetaLocator container:</p>
+            <pre><code>&lt;div id="metalocator-interface"&gt;&lt;/div&gt;
+
+&lt;style&gt;
+  /* Override MetaLocator default styles */
+  #metalocator-interface {
+    font-family: 'Your Brand Font', sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  /* Customize search box */
+  .ml-search-input {
+    border: 2px solid #your-brand-color;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 16px;
+  }
+  
+  /* Customize search button */
+  .ml-search-button {
+    background-color: #your-brand-color;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .ml-search-button:hover {
+    background-color: #your-darker-brand-color;
+  }
+&lt;/style&gt;</code></pre>
+            
+            <h3>Styling Location Cards</h3>
+            <p>Customize the appearance of location result cards:</p>
+            <pre><code>&lt;style&gt;
+  /* Location cards */
+  .ml-location-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .ml-location-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  }
+  
+  /* Location name */
+  .ml-location-name {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  /* Location address */
+  .ml-location-address {
+    color: #666;
+    line-height: 1.5;
+    margin-bottom: 12px;
+  }
+  
+  /* Location distance */
+  .ml-location-distance {
+    color: #667eea;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+&lt;/style&gt;</code></pre>
+            
+            <h3>Customizing Map Markers</h3>
+            <p>Use custom marker icons and info windows:</p>
+            <pre><code>&lt;script&gt;
+  window.MetaLocatorConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    map: {
+      markerIcon: {
+        url: '/path/to/your/custom-marker.png',
+        scaledSize: { width: 40, height: 40 }
+      },
+      markerIconActive: {
+        url: '/path/to/your/active-marker.png',
+        scaledSize: { width: 50, height: 50 }
+      },
+      styles: [
+        {
+          "featureType": "poi",
+          "elementType": "labels",
+          "stylers": [{ "visibility": "off" }]
+        }
+        // Add more Google Maps style rules
+      ]
+    }
+  };
+&lt;/script&gt;</code></pre>
+            
+            <h3>Custom Info Window Styling</h3>
+            <p>Style the map popup/info windows:</p>
+            <pre><code>&lt;style&gt;
+  /* Info window container */
+  .gm-style .gm-style-iw-c {
+    border-radius: 12px;
+    padding: 0;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  
+  /* Info window content */
+  .gm-style .gm-style-iw-d {
+    overflow: hidden !important;
+    padding: 15px;
+  }
+  
+  /* Info window close button */
+  .gm-style .gm-ui-hover-effect {
+    width: 32px !important;
+    height: 32px !important;
+    top: 8px !important;
+    right: 8px !important;
+  }
+  
+  /* Custom info window content */
+  .ml-infowindow-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .ml-infowindow-address {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+  
+  .ml-infowindow-link {
+    color: #667eea;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .ml-infowindow-link:hover {
+    text-decoration: underline;
+  }
+&lt;/style&gt;</code></pre>
+            
+            <h3>Responsive Design</h3>
+            <p>Ensure your styling works on all devices:</p>
+            <pre><code>&lt;style&gt;
+  /* Desktop styles */
+  #metalocator-interface {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 20px;
+    height: 600px;
+  }
+  
+  /* Tablet styles */
+  @media (max-width: 1024px) {
+    #metalocator-interface {
+      grid-template-columns: 350px 1fr;
+    }
+  }
+  
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    #metalocator-interface {
+      grid-template-columns: 1fr;
+      height: auto;
+    }
+    
+    .ml-location-card {
+      padding: 15px;
+    }
+    
+    .ml-search-input {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+&lt;/style&gt;</code></pre>
+            
+            <h3>Dark Mode Support</h3>
+            <p>Add dark mode styling for modern websites:</p>
+            <pre><code>&lt;style&gt;
+  /* Dark mode styles */
+  @media (prefers-color-scheme: dark) {
+    #metalocator-interface {
+      background-color: #1a1a1a;
+      color: #e0e0e0;
+    }
+    
+    .ml-location-card {
+      background: #2a2a2a;
+      border-color: #444;
+    }
+    
+    .ml-location-name {
+      color: #ffffff;
+    }
+    
+    .ml-location-address {
+      color: #b0b0b0;
+    }
+    
+    .ml-search-input {
+      background: #2a2a2a;
+      color: #e0e0e0;
+      border-color: #444;
+    }
+    
+    /* Dark map style */
+    .ml-map-container {
+      filter: invert(0.9) hue-rotate(180deg);
+    }
+  }
+&lt;/style&gt;</code></pre>
+            
+            <h3>Complete Branded Example</h3>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;style&gt;
+    :root {
+      --brand-primary: #667eea;
+      --brand-secondary: #764ba2;
+      --brand-text: #333333;
+      --brand-bg: #f8f9fa;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background-color: var(--brand-bg);
+    }
+    
+    #metalocator-interface {
+      max-width: 1400px;
+      margin: 40px auto;
+      padding: 0 20px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+    
+    .ml-search-box {
+      background: linear-gradient(135deg, 
+        var(--brand-primary) 0%, 
+        var(--brand-secondary) 100%);
+      padding: 30px;
+      border-radius: 16px 16px 0 0;
+    }
+    
+    .ml-search-input {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 16px;
+      border: 2px solid transparent;
+      border-radius: 10px;
+      transition: all 0.3s;
+    }
+    
+    .ml-search-input:focus {
+      border-color: var(--brand-primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+    
+    .ml-search-button {
+      background: var(--brand-primary);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .ml-search-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;div id="metalocator-interface"&gt;&lt;/div&gt;
+  
+  &lt;script&gt;
+    window.MetaLocatorConfig = {
+      id: 'YOUR_INTERFACE_ID',
+      theme: 'custom'
+    };
+  &lt;/script&gt;
+  
+  &lt;!-- MetaLocator script --&gt;
+  &lt;script src="https://api.metalocator.com/v1/interface.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            
+            <h3>Common CSS Selectors</h3>
+            <div class="description-list">
+                <dt>.ml-search-box</dt>
+                <dd>The search box container</dd>
+                
+                <dt>.ml-search-input</dt>
+                <dd>The search input field</dd>
+                
+                <dt>.ml-search-button</dt>
+                <dd>The search submit button</dd>
+                
+                <dt>.ml-location-card</dt>
+                <dd>Individual location result cards</dd>
+                
+                <dt>.ml-location-name</dt>
+                <dd>Location name/title</dd>
+                
+                <dt>.ml-location-address</dt>
+                <dd>Location address text</dd>
+                
+                <dt>.ml-location-distance</dt>
+                <dd>Distance from search point</dd>
+                
+                <dt>.ml-map-container</dt>
+                <dd>Map container element</dd>
+                
+                <dt>.ml-list-container</dt>
+                <dd>List view container</dd>
+                
+                <dt>.ml-filter-group</dt>
+                <dd>Filter controls container</dd>
+            </div>
+        </section>
+        
+        <section class="demo-container">
+            <h4>Styled Example Preview</h4>
+            <p>Example of a styled location card:</p>
+            <div style="max-width: 600px; background: white; border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08);">
+                <div style="font-size: 1.25rem; font-weight: 600; color: #333; margin-bottom: 8px;">
+                    Downtown Flagship Store
+                </div>
+                <div style="color: #666; line-height: 1.5; margin-bottom: 12px;">
+                    123 Main Street<br>
+                    New York, NY 10001<br>
+                    (212) 555-0123
+                </div>
+                <div style="color: #667eea; font-weight: 500; font-size: 0.95rem; margin-bottom: 12px;">
+                    📍 0.3 miles away
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button style="background: #667eea; color: white; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Get Directions</button>
+                    <button style="background: white; color: #667eea; border: 2px solid #667eea; padding: 8px 16px; border-radius: 6px; cursor: pointer;">Call Now</button>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 MetaLocator. All rights reserved.</p>
+    </footer>
+</body>
+</html>

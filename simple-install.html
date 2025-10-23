@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Install - MetaLocator Examples</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>MetaLocator JavaScript Installation Examples</h1>
+    </header>
+    
+    <nav class="navigation">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="simple-install.html" class="active">Simple Install</a></li>
+            <li><a href="nearby-widget.html">Nearby Widget</a></li>
+            <li><a href="deep-linking.html">Deep Linking</a></li>
+            <li><a href="custom-styling.html">Custom Styling</a></li>
+            <li><a href="advanced-config.html">Advanced Configuration</a></li>
+        </ul>
+    </nav>
+    
+    <main class="content">
+        <section class="code-section">
+            <h2>Simple Installation</h2>
+            <p>This is the most basic way to install MetaLocator on your website. Simply add the script tag and the interface container where you want the locator to appear.</p>
+            
+            <h3>Step 1: Add the Container DIV</h3>
+            <p>Place this div element where you want the MetaLocator interface to appear on your page:</p>
+            <pre><code>&lt;div id="metalocator-interface"&gt;&lt;/div&gt;</code></pre>
+            
+            <h3>Step 2: Add the JavaScript</h3>
+            <p>Add this script tag at the end of your page, just before the closing &lt;/body&gt; tag:</p>
+            <pre><code>&lt;script type="text/javascript"&gt;
+  (function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://api.metalocator.com/v1/interface.js?id=YOUR_INTERFACE_ID';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(script, s);
+  })();
+&lt;/script&gt;</code></pre>
+            
+            <h3>Complete Example</h3>
+            <p>Here's a complete HTML page with MetaLocator installed:</p>
+            <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Store Locator&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;Find a Store Near You&lt;/h1&gt;
+    
+    &lt;!-- MetaLocator Container --&gt;
+    &lt;div id="metalocator-interface"&gt;&lt;/div&gt;
+    
+    &lt;!-- MetaLocator Script --&gt;
+    &lt;script type="text/javascript"&gt;
+      (function() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = 'https://api.metalocator.com/v1/interface.js?id=YOUR_INTERFACE_ID';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(script, s);
+      })();
+    &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            
+            <h3>Configuration Parameters</h3>
+            <div class="description-list">
+                <dt>id (Required)</dt>
+                <dd>Your unique MetaLocator interface ID. This is provided when you create an interface in your MetaLocator dashboard.</dd>
+                
+                <dt>Container Element</dt>
+                <dd>The div with id="metalocator-interface" is where the locator will be rendered. You can customize the ID by configuring it in your MetaLocator dashboard.</dd>
+            </div>
+            
+            <h3>Important Notes</h3>
+            <ul style="margin-left: 2rem; color: #666;">
+                <li>Replace <code>YOUR_INTERFACE_ID</code> with your actual MetaLocator interface ID</li>
+                <li>The script loads asynchronously to avoid blocking page rendering</li>
+                <li>The container div must exist on the page before the script executes</li>
+                <li>No jQuery or other dependencies are required</li>
+            </ul>
+        </section>
+        
+        <section class="demo-container">
+            <h4>Live Demo Area</h4>
+            <p>This is where the MetaLocator interface would appear with a valid interface ID:</p>
+            <div id="metalocator-interface" style="min-height: 400px; background: white; border: 1px solid #ddd; display: flex; align-items: center; justify-content: center; color: #999;">
+                Replace YOUR_INTERFACE_ID in the script to see the live interface
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 MetaLocator. All rights reserved.</p>
+    </footer>
+</body>
+</html>
