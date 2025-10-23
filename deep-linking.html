@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Linking - MetaLocator Examples</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>MetaLocator JavaScript Installation Examples</h1>
+    </header>
+    
+    <nav class="navigation">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="simple-install.html">Simple Install</a></li>
+            <li><a href="nearby-widget.html">Nearby Widget</a></li>
+            <li><a href="deep-linking.html" class="active">Deep Linking</a></li>
+            <li><a href="custom-styling.html">Custom Styling</a></li>
+            <li><a href="advanced-config.html">Advanced Configuration</a></li>
+        </ul>
+    </nav>
+    
+    <main class="content">
+        <section class="code-section">
+            <h2>Deep Linking Examples</h2>
+            <p>Deep linking allows you to create URLs that open MetaLocator with specific search parameters, locations, or views pre-configured. This is useful for marketing campaigns, email links, and direct navigation.</p>
+            
+            <h3>Basic Deep Link Structure</h3>
+            <p>Deep links are created using URL parameters that MetaLocator recognizes and processes:</p>
+            <pre><code>https://yoursite.com/locator.html?query=NewYork&amp;radius=25&amp;unit=miles</code></pre>
+            
+            <h3>Search by Address</h3>
+            <p>Link directly to search results for a specific address:</p>
+            <pre><code>&lt;!-- Direct link to search --&gt;
+&lt;a href="locator.html?query=1600+Pennslyvania+Ave+Washington+DC"&gt;
+  Find stores in Washington DC
+&lt;/a&gt;
+
+&lt;!-- URL Parameters --&gt;
+?query=1600+Pennslyvania+Ave+Washington+DC</code></pre>
+            
+            <h3>Search by Coordinates</h3>
+            <p>Use latitude and longitude for precise location searches:</p>
+            <pre><code>&lt;a href="locator.html?lat=40.7128&amp;lng=-74.0060&amp;radius=10"&gt;
+  View locations near NYC
+&lt;/a&gt;
+
+&lt;!-- URL Parameters --&gt;
+?lat=40.7128&amp;lng=-74.0060&amp;radius=10</code></pre>
+            
+            <h3>Link to Specific Location</h3>
+            <p>Open the interface with a specific location pre-selected:</p>
+            <pre><code>&lt;a href="locator.html?location=12345"&gt;
+  View Downtown Store
+&lt;/a&gt;
+
+&lt;!-- URL Parameters --&gt;
+?location=12345  &lt;!-- where 12345 is the location ID --&gt;</code></pre>
+            
+            <h3>Filter by Category</h3>
+            <p>Show only locations in specific categories:</p>
+            <pre><code>&lt;a href="locator.html?category=retail&amp;query=90210"&gt;
+  Find retail stores in Beverly Hills
+&lt;/a&gt;
+
+&lt;!-- URL Parameters --&gt;
+?category=retail&amp;query=90210</code></pre>
+            
+            <h3>JavaScript Implementation</h3>
+            <p>Read URL parameters and initialize MetaLocator with them:</p>
+            <pre><code>&lt;div id="metalocator-interface"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  // Function to get URL parameters
+  function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+  }
+  
+  // Get deep link parameters
+  var query = getUrlParameter('query');
+  var lat = getUrlParameter('lat');
+  var lng = getUrlParameter('lng');
+  var locationId = getUrlParameter('location');
+  var category = getUrlParameter('category');
+  var radius = getUrlParameter('radius');
+  
+  // Configure MetaLocator with deep link parameters
+  window.MetaLocatorConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    initialQuery: query,
+    initialLat: lat,
+    initialLng: lng,
+    initialLocation: locationId,
+    category: category,
+    radius: radius
+  };
+  
+  // Load MetaLocator script
+  (function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://api.metalocator.com/v1/interface.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(script, s);
+  })();
+&lt;/script&gt;</code></pre>
+            
+            <h3>Complete Example with Multiple Parameters</h3>
+            <pre><code>&lt;!-- Example links with various parameters --&gt;
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;a href="locator.html?query=Seattle+WA&amp;radius=50&amp;unit=miles&amp;category=restaurant"&gt;
+      Restaurants within 50 miles of Seattle
+    &lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;a href="locator.html?lat=34.0522&amp;lng=-118.2437&amp;view=map"&gt;
+      Map view of Los Angeles locations
+    &lt;/a&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;a href="locator.html?location=789&amp;action=directions"&gt;
+      Get directions to location #789
+    &lt;/a&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+            
+            <h3>Supported URL Parameters</h3>
+            <div class="description-list">
+                <dt>query</dt>
+                <dd>Address or search term to search for (URL encoded)</dd>
+                
+                <dt>lat / lng</dt>
+                <dd>Latitude and longitude coordinates for the search center</dd>
+                
+                <dt>location</dt>
+                <dd>Specific location ID to display or highlight</dd>
+                
+                <dt>radius</dt>
+                <dd>Search radius in specified units</dd>
+                
+                <dt>unit</dt>
+                <dd>Distance unit: "miles" or "kilometers"</dd>
+                
+                <dt>category</dt>
+                <dd>Filter by category name or ID</dd>
+                
+                <dt>view</dt>
+                <dd>Initial view mode: "map", "list", or "grid"</dd>
+                
+                <dt>action</dt>
+                <dd>Auto-execute action: "directions", "call", "website"</dd>
+                
+                <dt>zoom</dt>
+                <dd>Initial map zoom level (1-20)</dd>
+                
+                <dt>filter</dt>
+                <dd>Additional filter criteria (custom field values)</dd>
+            </div>
+            
+            <h3>Creating Shareable Links</h3>
+            <p>Generate shareable links programmatically:</p>
+            <pre><code>&lt;script&gt;
+  function createShareableLink(params) {
+    var baseUrl = window.location.origin + window.location.pathname;
+    var queryString = Object.keys(params)
+      .map(key =&gt; encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
+      .join('&amp;');
+    return baseUrl + '?' + queryString;
+  }
+  
+  // Example usage
+  var shareLink = createShareableLink({
+    query: 'New York, NY',
+    radius: 25,
+    unit: 'miles',
+    category: 'retail'
+  });
+  
+  console.log('Share this link:', shareLink);
+  // Output: https://yoursite.com/locator.html?query=New%20York%2C%20NY&amp;radius=25&amp;unit=miles&amp;category=retail
+&lt;/script&gt;</code></pre>
+            
+            <h3>Best Practices</h3>
+            <ul style="margin-left: 2rem; color: #666;">
+                <li>Always URL-encode parameter values with spaces or special characters</li>
+                <li>Test deep links to ensure they work as expected</li>
+                <li>Use descriptive link text for accessibility</li>
+                <li>Consider adding UTM parameters for tracking campaign performance</li>
+                <li>Provide fallback behavior if parameters are invalid</li>
+                <li>Use HTTPS for all links to ensure security</li>
+            </ul>
+        </section>
+        
+        <section class="demo-container">
+            <h4>Example Deep Links</h4>
+            <p>Click these example links to see how deep linking works:</p>
+            <div style="background: white; padding: 15px; border-radius: 4px;">
+                <ul style="list-style: none; padding: 0;">
+                    <li style="margin-bottom: 10px;">
+                        <strong>Search by City:</strong><br>
+                        <code style="background: #f0f0f0; padding: 5px; border-radius: 3px; font-size: 0.9em;">
+                            deep-linking.html?query=Boston+MA&radius=20
+                        </code>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>Search by Coordinates:</strong><br>
+                        <code style="background: #f0f0f0; padding: 5px; border-radius: 3px; font-size: 0.9em;">
+                            deep-linking.html?lat=41.8781&lng=-87.6298&radius=15
+                        </code>
+                    </li>
+                    <li style="margin-bottom: 10px;">
+                        <strong>View Specific Location:</strong><br>
+                        <code style="background: #f0f0f0; padding: 5px; border-radius: 3px; font-size: 0.9em;">
+                            deep-linking.html?location=12345
+                        </code>
+                    </li>
+                    <li>
+                        <strong>Filtered Search:</strong><br>
+                        <code style="background: #f0f0f0; padding: 5px; border-radius: 3px; font-size: 0.9em;">
+                            deep-linking.html?query=Seattle&category=restaurant&radius=10
+                        </code>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 MetaLocator. All rights reserved.</p>
+    </footer>
+</body>
+</html>
