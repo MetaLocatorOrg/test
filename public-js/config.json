@@ -1,6 +1,6 @@
 {
   "apiKey": "6c7eaab409174d7e02aea345e8814d2fcf6908c67e5b40b3433367a1d010ac06",
-  "itemId": "20034",
+  "itemId": "YOUR_ITEM_ID_HERE",
   "apiBaseUrl": "https://metalocator.local/api",
   "rateLimitPerMinute": 60,
   "defaultRadius": 25,
