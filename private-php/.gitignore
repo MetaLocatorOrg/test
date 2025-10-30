@@ -1,0 +1,10 @@
+# Ignore the actual config file (contains API keys)
+config.php
+
+# Ignore any custom CSV files (except the sample)
+*.csv
+!sample_locations.csv
+
+# Ignore any logs or output files
+*.log
+*.txt

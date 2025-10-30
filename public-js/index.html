@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaLocator API Search Sample</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>MetaLocator API Search Sample</h1>
+            <p class="subtitle">Simple demonstration of the MetaLocator /search API</p>
+        </header>
+
+        <main>
+            <div class="search-form">
+                <h2>Search Locations</h2>
+                
+                <div class="form-group">
+                    <label for="postal_code">Postal Code:</label>
+                    <input type="text" id="postal_code" placeholder="Enter postal code (e.g., 80205)">
+                </div>
+
+                <div class="form-group">
+                    <label for="radius">Radius (miles):</label>
+                    <input type="number" id="radius" placeholder="25" min="1" max="500">
+                </div>
+
+                <div class="form-group">
+                    <label for="limit">Max Results:</label>
+                    <input type="number" id="limit" placeholder="10" min="1" max="100">
+                </div>
+
+                <div class="form-group">
+                    <label for="keyword">Keyword (optional):</label>
+                    <input type="text" id="keyword" placeholder="Search keyword">
+                </div>
+
+                <button id="search-button" class="btn btn-primary">Search</button>
+                <button id="clear-button" class="btn btn-secondary">Clear</button>
+            </div>
+
+            <div class="status-section">
+                <div id="status-message" class="status-message"></div>
+                <div id="rate-limit-info" class="rate-limit-info"></div>
+            </div>
+
+            <div class="results-section">
+                <h2>Results</h2>
+                <div id="results-container" class="results-container">
+                    <p class="placeholder">Enter search criteria and click "Search" to view results.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>This is a sample application demonstrating MetaLocator API usage.</p>
+            <p><a href="/index.php?option=com_locator&format=raw&task=api.yaml&Itemid=125" target="_blank">View API Documentation</a></p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
+            integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="app.js"></script>
+</body>
+</html>
