@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Configuration - MetaLocator Examples</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>MetaLocator JavaScript Installation Examples</h1>
+    </header>
+    
+    <nav class="navigation">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="simple-install.html">Simple Install</a></li>
+            <li><a href="nearby-widget.html">Nearby Widget</a></li>
+            <li><a href="deep-linking.html">Deep Linking</a></li>
+            <li><a href="custom-styling.html">Custom Styling</a></li>
+            <li><a href="advanced-config.html" class="active">Advanced Configuration</a></li>
+        </ul>
+    </nav>
+    
+    <main class="content">
+        <section class="code-section">
+            <h2>Advanced Configuration</h2>
+            <p>MetaLocator offers extensive configuration options for advanced customization and integration with your application.</p>
+            
+            <h3>Global Configuration Object</h3>
+            <p>Configure MetaLocator before loading the script:</p>
+            <pre><code>&lt;div id="metalocator-interface"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  window.MetaLocatorConfig = {
+    // Required
+    id: 'YOUR_INTERFACE_ID',
+    
+    // Search Configuration
+    defaultRadius: 25,
+    defaultUnit: 'miles',
+    maxResults: 50,
+    autoGeocode: true,
+    
+    // Map Configuration
+    map: {
+      zoom: 12,
+      center: { lat: 40.7128, lng: -74.0060 },
+      type: 'roadmap', // roadmap, satellite, hybrid, terrain
+      scrollwheel: true,
+      gestureHandling: 'cooperative'
+    },
+    
+    // UI Configuration
+    ui: {
+      showSearchBox: true,
+      showFilters: true,
+      showList: true,
+      showMap: true,
+      defaultView: 'split', // split, map, list
+      expandedView: false
+    },
+    
+    // Filter Configuration
+    filters: {
+      categories: true,
+      customFields: ['services', 'amenities'],
+      showCount: true
+    },
+    
+    // Events and Callbacks
+    onLoad: function() {
+      console.log('MetaLocator loaded');
+    },
+    
+    onSearch: function(query, results) {
+      console.log('Search performed:', query, results);
+    },
+    
+    onLocationSelect: function(location) {
+      console.log('Location selected:', location);
+    }
+  };
+  
+  // Load the script
+  (function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://api.metalocator.com/v1/interface.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(script, s);
+  })();
+&lt;/script&gt;</code></pre>
+            
+            <h3>Event Handlers</h3>
+            <p>Hook into MetaLocator events for custom functionality:</p>
+            <pre><code>&lt;script&gt;
+  window.MetaLocatorConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    
+    // Called when interface finishes loading
+    onLoad: function() {
+      console.log('MetaLocator is ready');
+      // Initialize custom features
+    },
+    
+    // Called before a search is performed
+    onBeforeSearch: function(query) {
+      console.log('About to search for:', query);
+      // Modify query or cancel search
+      return query;
+    },
+    
+    // Called when search completes
+    onSearch: function(query, results, count) {
+      console.log('Found', count, 'results for', query);
+      // Update custom UI elements
+      document.getElementById('result-count').textContent = count + ' locations found';
+    },
+    
+    // Called when a location is selected
+    onLocationSelect: function(location) {
+      console.log('Selected location:', location);
+      // Send analytics event
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'location_select', {
+          location_id: location.id,
+          location_name: location.name
+        });
+      }
+    },
+    
+    // Called when directions are requested
+    onDirectionsRequest: function(location, origin) {
+      console.log('Directions requested from', origin, 'to', location);
+      // Track conversion
+    },
+    
+    // Called when map bounds change
+    onMapBoundsChange: function(bounds) {
+      console.log('Map bounds changed:', bounds);
+      // Load additional data if needed
+    },
+    
+    // Called on errors
+    onError: function(error) {
+      console.error('MetaLocator error:', error);
+      // Display custom error message
+      alert('Location search temporarily unavailable. Please try again later.');
+    }
+  };
+&lt;/script&gt;</code></pre>
+            
+            <h3>Custom Templates</h3>
+            <p>Define custom HTML templates for location cards:</p>
+            <pre><code>&lt;script&gt;
+  window.MetaLocatorConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    
+    templates: {
+      locationCard: function(location) {
+        return `
+          &lt;div class="custom-location-card"&gt;
+            &lt;div class="location-header"&gt;
+              &lt;h3&gt;${location.name}&lt;/h3&gt;
+              ${location.featured ? '&lt;span class="badge"&gt;Featured&lt;/span&gt;' : ''}
+            &lt;/div&gt;
+            &lt;div class="location-body"&gt;
+              &lt;p&gt;${location.address}&lt;/p&gt;
+              &lt;p&gt;${location.city}, ${location.state} ${location.zip}&lt;/p&gt;
+              ${location.phone ? `&lt;p&gt;&lt;a href="tel:${location.phone}"&gt;${location.phone}&lt;/a&gt;&lt;/p&gt;` : ''}
+            &lt;/div&gt;
+            &lt;div class="location-footer"&gt;
+              &lt;span class="distance"&gt;${location.distance} ${location.unit}&lt;/span&gt;
+              &lt;button onclick="getDirections('${location.id}')"&gt;Directions&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        `;
+      },
+      
+      infoWindow: function(location) {
+        return `
+          &lt;div class="custom-infowindow"&gt;
+            &lt;h4&gt;${location.name}&lt;/h4&gt;
+            &lt;p&gt;${location.address}&lt;br&gt;${location.city}, ${location.state}&lt;/p&gt;
+            &lt;a href="#" onclick="selectLocation('${location.id}'); return false;"&gt;
+              View Details
+            &lt;/a&gt;
+          &lt;/div&gt;
+        `;
+      }
+    }
+  };
+&lt;/script&gt;</code></pre>
+            
+            <h3>API Integration</h3>
+            <p>Programmatically control MetaLocator via JavaScript API:</p>
+            <pre><code>&lt;script&gt;
+  // Wait for MetaLocator to load
+  window.addEventListener('metalocator:loaded', function() {
+    
+    // Get the MetaLocator API instance
+    var ml = window.MetaLocator;
+    
+    // Perform a search programmatically
+    ml.search('New York, NY', {
+      radius: 50,
+      limit: 20,
+      category: 'retail'
+    });
+    
+    // Get current results
+    var results = ml.getResults();
+    console.log('Current results:', results);
+    
+    // Select a specific location
+    ml.selectLocation(12345);
+    
+    // Get selected location
+    var selected = ml.getSelectedLocation();
+    
+    // Clear current search
+    ml.clearSearch();
+    
+    // Update filters
+    ml.setFilters({
+      category: 'restaurant',
+      amenities: ['wifi', 'parking']
+    });
+    
+    // Pan map to location
+    ml.panTo(40.7128, -74.0060);
+    
+    // Set map zoom
+    ml.setZoom(14);
+    
+    // Toggle view mode
+    ml.setView('map'); // 'map', 'list', or 'split'
+    
+    // Refresh interface
+    ml.refresh();
+  });
+&lt;/script&gt;</code></pre>
+            
+            <h3>Custom Filters</h3>
+            <p>Implement custom filtering logic:</p>
+            <pre><code>&lt;script&gt;
+  window.MetaLocatorConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    
+    // Define custom filter function
+    customFilter: function(location, filters) {
+      // Only show locations open now
+      if (filters.openNow && !location.isOpenNow) {
+        return false;
+      }
+      
+      // Only show locations with parking
+      if (filters.parking && !location.hasParking) {
+        return false;
+      }
+      
+      // Custom business logic
+      if (filters.premium && location.tier !== 'premium') {
+        return false;
+      }
+      
+      return true;
+    },
+    
+    // Custom sort function
+    customSort: function(a, b, sortBy) {
+      if (sortBy === 'rating') {
+        return b.rating - a.rating;
+      }
+      if (sortBy === 'alphabetical') {
+        return a.name.localeCompare(b.name);
+      }
+      // Default to distance
+      return a.distance - b.distance;
+    }
+  };
+&lt;/script&gt;</code></pre>
+            
+            <h3>Localization</h3>
+            <p>Customize text and translations:</p>
+            <pre><code>&lt;script&gt;
+  window.MetaLocatorConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    
+    language: 'es', // Language code
+    
+    // Custom text labels
+    labels: {
+      searchPlaceholder: 'Buscar ubicación...',
+      searchButton: 'Buscar',
+      getDirections: 'Obtener direcciones',
+      callNow: 'Llamar ahora',
+      visitWebsite: 'Visitar sitio web',
+      milesAway: 'millas de distancia',
+      kilometersAway: 'kilómetros de distancia',
+      noResults: 'No se encontraron resultados',
+      loading: 'Cargando...',
+      error: 'Error al cargar ubicaciones'
+    },
+    
+    // Custom date/time formatting
+    dateFormat: 'DD/MM/YYYY',
+    timeFormat: '24h',
+    
+    // Number formatting
+    numberFormat: {
+      decimal: ',',
+      thousands: '.'
+    }
+  };
+&lt;/script&gt;</code></pre>
+            
+            <h3>Performance Optimization</h3>
+            <pre><code>&lt;script&gt;
+  window.MetaLocatorConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    
+    // Performance settings
+    performance: {
+      // Lazy load map
+      lazyLoadMap: true,
+      
+      // Debounce search input (ms)
+      searchDebounce: 300,
+      
+      // Maximum markers to show on map
+      maxMarkers: 100,
+      
+      // Use marker clustering
+      clusterMarkers: true,
+      clusterOptions: {
+        maxZoom: 15,
+        gridSize: 60
+      },
+      
+      // Cache results
+      cacheResults: true,
+      cacheDuration: 300000, // 5 minutes in ms
+      
+      // Preload nearby locations
+      preloadNearby: false,
+      
+      // Virtual scrolling for large result sets
+      virtualScrolling: true
+    }
+  };
+&lt;/script&gt;</code></pre>
+            
+            <h3>Security and Privacy</h3>
+            <pre><code>&lt;script&gt;
+  window.MetaLocatorConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    
+    // Security settings
+    security: {
+      // Restrict to specific domains
+      allowedDomains: ['yourdomain.com', 'www.yourdomain.com'],
+      
+      // Require HTTPS
+      requireHTTPS: true,
+      
+      // Enable CORS
+      cors: true
+    },
+    
+    // Privacy settings
+    privacy: {
+      // Request geolocation permission explicitly
+      askGeolocationPermission: true,
+      
+      // Don't store user searches
+      storeSearchHistory: false,
+      
+      // Anonymize analytics
+      anonymizeAnalytics: true,
+      
+      // GDPR compliance
+      gdprCompliant: true,
+      consentRequired: true
+    }
+  };
+&lt;/script&gt;</code></pre>
+            
+            <h3>Configuration Reference</h3>
+            <div class="description-list">
+                <dt>id (Required)</dt>
+                <dd>Your MetaLocator interface ID</dd>
+                
+                <dt>defaultRadius</dt>
+                <dd>Default search radius (number)</dd>
+                
+                <dt>defaultUnit</dt>
+                <dd>Distance unit: 'miles' or 'kilometers'</dd>
+                
+                <dt>maxResults</dt>
+                <dd>Maximum number of results to return (1-100)</dd>
+                
+                <dt>autoGeocode</dt>
+                <dd>Automatically detect user's location (boolean)</dd>
+                
+                <dt>map</dt>
+                <dd>Map configuration object</dd>
+                
+                <dt>ui</dt>
+                <dd>User interface configuration object</dd>
+                
+                <dt>filters</dt>
+                <dd>Filter configuration object</dd>
+                
+                <dt>templates</dt>
+                <dd>Custom HTML template functions</dd>
+                
+                <dt>labels</dt>
+                <dd>Custom text labels object</dd>
+                
+                <dt>performance</dt>
+                <dd>Performance optimization settings</dd>
+                
+                <dt>security</dt>
+                <dd>Security configuration object</dd>
+                
+                <dt>privacy</dt>
+                <dd>Privacy settings object</dd>
+            </div>
+        </section>
+        
+        <section class="demo-container">
+            <h4>Configuration Best Practices</h4>
+            <ul style="margin-left: 2rem; color: #666;">
+                <li>Always define the configuration object before loading the MetaLocator script</li>
+                <li>Start with minimal configuration and add options as needed</li>
+                <li>Test configuration changes thoroughly before deploying to production</li>
+                <li>Use event handlers for analytics and custom integrations</li>
+                <li>Enable performance optimizations for sites with many locations</li>
+                <li>Respect user privacy by minimizing data collection</li>
+                <li>Keep your interface ID secure and don't expose it in public repositories</li>
+                <li>Use custom templates to maintain consistent branding</li>
+                <li>Implement error handlers for better user experience</li>
+                <li>Document your custom configuration for team members</li>
+            </ul>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 MetaLocator. All rights reserved.</p>
+    </footer>
+</body>
+</html>
