@@ -6,11 +6,11 @@
  */
 
 return [
-    // Your MetaLocator API Key (get this from your MetaLocator account)
+    // Your MetaLocator API Key (get this from your MetaLocator account).  The key should be a **private** scoped key.
     'api_key' => 'YOUR_API_KEY_HERE',
     
     // MetaLocator API Base URL
-    'api_base_url' => 'https://metalocator.local/api',
+    'api_base_url' => 'https://admin-api.metalocator.com/api/v1',
     
     // Rate limiting settings (requests per second)
     'rate_limit_delay' => 1.0, // Delay in seconds between requests (1.0 = 1 request per second)

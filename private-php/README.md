@@ -22,7 +22,7 @@ This sample application demonstrates how to import location data into MetaLocato
 ### 1. Get Your API Credentials
 
 You'll need:
-- Your MetaLocator **API Key** (from your MetaLocator account settings)
+- Your MetaLocator **API Key** (from your MetaLocator account settings).  The key should be a **private** scoped key.
 
 ### 2. Configure the Application
 
