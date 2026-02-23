@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nearby Widget - MetaLocator Examples</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>MetaLocator JavaScript Installation Examples</h1>
+    </header>
+    
+    <nav class="navigation">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="simple-install.html">Simple Install</a></li>
+            <li><a href="nearby-widget.html" class="active">Nearby Widget</a></li>
+            <li><a href="deep-linking.html">Deep Linking</a></li>
+            <li><a href="custom-styling.html">Custom Styling</a></li>
+            <li><a href="advanced-config.html">Advanced Configuration</a></li>
+        </ul>
+    </nav>
+    
+    <main class="content">
+        <section class="code-section">
+            <h2>Nearby Widget Installation</h2>
+            <p>The Nearby Widget displays locations closest to the user's current position or a specified location. This is perfect for sidebar widgets or compact displays.</p>
+            
+            <h3>Basic Nearby Widget Implementation</h3>
+            <pre><code>&lt;!-- Nearby Widget Container --&gt;
+&lt;div id="metalocator-nearby"&gt;&lt;/div&gt;
+
+&lt;!-- Nearby Widget Script --&gt;
+&lt;script type="text/javascript"&gt;
+  (function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://api.metalocator.com/v1/nearby.js?id=YOUR_INTERFACE_ID&amp;limit=5';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(script, s);
+  })();
+&lt;/script&gt;</code></pre>
+            
+            <h3>Widget with Geolocation</h3>
+            <p>Automatically detect the user's location and show nearby results:</p>
+            <pre><code>&lt;div id="metalocator-nearby"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  (function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://api.metalocator.com/v1/nearby.js?id=YOUR_INTERFACE_ID&amp;limit=5&amp;geolocation=true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(script, s);
+  })();
+&lt;/script&gt;</code></pre>
+            
+            <h3>Widget with Custom Location</h3>
+            <p>Show locations near a specific address or coordinates:</p>
+            <pre><code>&lt;div id="metalocator-nearby"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  (function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://api.metalocator.com/v1/nearby.js?id=YOUR_INTERFACE_ID&amp;limit=10&amp;address=New+York+NY';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(script, s);
+  })();
+&lt;/script&gt;</code></pre>
+            
+            <h3>Advanced Configuration with Callback</h3>
+            <p>Use JavaScript to configure the widget programmatically:</p>
+            <pre><code>&lt;div id="metalocator-nearby"&gt;&lt;/div&gt;
+
+&lt;script type="text/javascript"&gt;
+  window.MetaLocatorNearbyConfig = {
+    id: 'YOUR_INTERFACE_ID',
+    limit: 5,
+    geolocation: true,
+    unit: 'miles',
+    container: 'metalocator-nearby',
+    callback: function(data) {
+      console.log('Nearby locations loaded:', data);
+    }
+  };
+  
+  (function() {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://api.metalocator.com/v1/nearby.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(script, s);
+  })();
+&lt;/script&gt;</code></pre>
+            
+            <h3>Configuration Parameters</h3>
+            <div class="description-list">
+                <dt>id (Required)</dt>
+                <dd>Your MetaLocator interface ID</dd>
+                
+                <dt>limit</dt>
+                <dd>Number of nearby locations to display (default: 5, max: 50)</dd>
+                
+                <dt>geolocation</dt>
+                <dd>Set to "true" to use the visitor's current location (requires user permission)</dd>
+                
+                <dt>address</dt>
+                <dd>A specific address or location to search near (URL encoded)</dd>
+                
+                <dt>unit</dt>
+                <dd>Distance unit: "miles" or "kilometers" (default: miles)</dd>
+                
+                <dt>container</dt>
+                <dd>The ID of the container element (default: metalocator-nearby)</dd>
+                
+                <dt>radius</dt>
+                <dd>Maximum search radius in the specified unit (e.g., 50)</dd>
+                
+                <dt>template</dt>
+                <dd>Custom HTML template for displaying results</dd>
+                
+                <dt>callback</dt>
+                <dd>JavaScript function called when locations are loaded</dd>
+            </div>
+            
+            <h3>Styling the Widget</h3>
+            <p>Add custom CSS to match your site's design:</p>
+            <pre><code>&lt;style&gt;
+  #metalocator-nearby {
+    font-family: Arial, sans-serif;
+    max-width: 350px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    background: #f9f9f9;
+  }
+  
+  .ml-nearby-item {
+    padding: 10px;
+    margin-bottom: 10px;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  }
+  
+  .ml-nearby-name {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  .ml-nearby-distance {
+    color: #667eea;
+    font-size: 0.9em;
+  }
+&lt;/style&gt;</code></pre>
+        </section>
+        
+        <section class="demo-container">
+            <h4>Live Demo Area</h4>
+            <p>Example of how a nearby widget might appear:</p>
+            <div style="max-width: 350px; border: 1px solid #ddd; border-radius: 8px; padding: 15px; background: #f9f9f9;">
+                <h5 style="margin-bottom: 15px; color: #667eea;">Locations Near You</h5>
+                <div style="padding: 10px; margin-bottom: 10px; background: white; border-radius: 4px;">
+                    <div style="font-weight: bold; margin-bottom: 5px;">Downtown Store</div>
+                    <div style="color: #666; font-size: 0.9em;">123 Main St, New York, NY</div>
+                    <div style="color: #667eea; font-size: 0.9em; margin-top: 5px;">0.5 miles</div>
+                </div>
+                <div style="padding: 10px; margin-bottom: 10px; background: white; border-radius: 4px;">
+                    <div style="font-weight: bold; margin-bottom: 5px;">Midtown Location</div>
+                    <div style="color: #666; font-size: 0.9em;">456 Park Ave, New York, NY</div>
+                    <div style="color: #667eea; font-size: 0.9em; margin-top: 5px;">1.2 miles</div>
+                </div>
+                <div style="padding: 10px; background: white; border-radius: 4px;">
+                    <div style="font-weight: bold; margin-bottom: 5px;">Uptown Branch</div>
+                    <div style="color: #666; font-size: 0.9em;">789 Broadway, New York, NY</div>
+                    <div style="color: #667eea; font-size: 0.9em; margin-top: 5px;">2.3 miles</div>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; 2024 MetaLocator. All rights reserved.</p>
+    </footer>
+</body>
+</html>
