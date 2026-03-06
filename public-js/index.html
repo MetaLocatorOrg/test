@@ -60,6 +60,54 @@
         </footer>
     </div>
 
+    <!-- Lead Modal -->
+    <div id="lead-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="lead-modal-title">
+        <div class="modal-overlay"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 id="lead-modal-title">Contact This Location</h2>
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="lead-status" class="status-message" style="display:none;"></div>
+                <form id="lead-form" novalidate>
+                    <div class="form-group">
+                        <label for="lead-subject">Subject:</label>
+                        <input type="text" id="lead-subject" name="subject" placeholder="I am a new lead" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lead-fromname">Your Name:</label>
+                        <input type="text" id="lead-fromname" name="fromname" placeholder="Mr. Lead Prospect" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lead-fromemail">Your Email:</label>
+                        <input type="email" id="lead-fromemail" name="fromemail" placeholder="leadprospect@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lead-fromphone">Your Phone:</label>
+                        <input type="tel" id="lead-fromphone" name="fromphone" placeholder="555-123-4567">
+                    </div>
+                    <div class="form-group">
+                        <label for="lead-message">Message:</label>
+                        <textarea id="lead-message" name="message" rows="4" placeholder="This is the body of the email" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="lead-custom1">Custom Field 1:</label>
+                        <input type="text" id="lead-custom1" name="custom1" placeholder="This is a custom field value">
+                    </div>
+                    <div class="form-group">
+                        <label for="lead-custom2">Custom Field 2:</label>
+                        <input type="text" id="lead-custom2" name="custom2" placeholder="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="lead-submit" class="btn btn-primary">Send</button>
+                <button class="btn btn-secondary modal-close-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
