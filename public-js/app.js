@@ -6,7 +6,7 @@
  */
 
 // Application state
-const MetaLocatorApp = {
+const MetaLocatorSampleApp = {
     config: null,
     requestLog: [],
     rateLimitWindow: 60000, // 1 minute in milliseconds
@@ -34,7 +34,7 @@ const MetaLocatorApp = {
         return $.getJSON('config.json')
             .then(config => {
                 this.config = config;
-                if (!config.apiKey || config.apiKey === 'YOUR_API_KEY_HERE') {
+                if (!config.apiKey || config.apiKey === 'YOUR_PUBLIC_API_KEY_HERE') {
                     throw new Error('Please configure your API key in config.json');
                 }
                 if (!config.itemId || config.itemId === 'YOUR_ITEM_ID_HERE') {
@@ -353,5 +353,5 @@ const MetaLocatorApp = {
 
 // Initialize the application when document is ready
 $(document).ready(() => {
-    MetaLocatorApp.init();
+    MetaLocatorSampleApp.init();
 });
