@@ -19,6 +19,7 @@ const MetaLocatorSampleApp = {
             .then(() => {
                 this.attachEventHandlers();
                 this.updateRateLimitDisplay();
+                this.loadStateOptions();
                 this.showStatus('Application initialized. Ready to search.', 'success');
             })
             .catch(error => {
@@ -42,6 +43,40 @@ const MetaLocatorSampleApp = {
                 }
                 return config;
             });
+    },
+
+    /**
+     * Load the list of states from the API and populate the state dropdown
+     */
+    loadStateOptions: function() {
+        const url = `${this.config.apiBaseUrl}/interfaces/${this.config.itemId}/get-field-data-list`;
+
+        $.ajax({
+            url: url,
+            dataType: 'json',
+            headers: {
+                'X-API-Key': this.config.apiKey
+            },
+            timeout: 10000,
+            success: (data) => {
+                const stateSelect = $('#state');
+                // API may return a top-level array or an object with a `data` array.
+                // Each item may be a plain string or an object with a `state`, `value`, or `name` property.
+                const items = Array.isArray(data) ? data : (data && Array.isArray(data.data) ? data.data : []);
+                const uniqueStates = [...new Set(items.map(item => {
+                    return (typeof item === 'string') ? item : (item.state || item.value || item.name || '');
+                }).filter(Boolean))].sort();
+
+                uniqueStates.forEach(state => {
+                    stateSelect.append($('<option></option>').val(state).text(state));
+                });
+
+                stateSelect.prop('disabled', false);
+            },
+            error: (jqXHR, textStatus, errorThrown) => {
+                console.error('Error loading state options:', textStatus, errorThrown);
+            }
+        });
     },
 
     /**
@@ -153,6 +188,10 @@ const MetaLocatorSampleApp = {
             queryParams.append('keyword', params.keyword);
         }
 
+        if (params.state) {
+            queryParams.append('state', params.state);
+        }
+
         return `${url}?${queryParams.toString()}`;
     },
 
@@ -175,7 +214,8 @@ const MetaLocatorSampleApp = {
             postal_code: $('#postal_code').val().trim(),
             radius: $('#radius').val().trim(),
             limit: $('#limit').val().trim(),
-            keyword: $('#keyword').val().trim()
+            keyword: $('#keyword').val().trim(),
+            state: $('#state').val()
         };
 
         // Build URL and perform search
@@ -559,6 +599,7 @@ const MetaLocatorSampleApp = {
         $('#radius').val('');
         $('#limit').val('');
         $('#keyword').val('');
+        $('#state').val('');
         $('#results-container').html('<p class="placeholder">Enter search criteria and click "Search" to view results.</p>');
         this.showStatus('Form cleared.', 'info');
     }
