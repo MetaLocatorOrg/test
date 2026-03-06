@@ -49,7 +49,7 @@ const MetaLocatorSampleApp = {
      * Load the list of states from the API and populate the state dropdown
      */
     loadStateOptions: function() {
-        const url = `${this.config.apiBaseUrl}/interfaces/${this.config.itemId}/get-field-data-list`;
+        const url = `${this.config.apiBaseUrl}/interfaces/${this.config.itemId}/get-field-data-list?safename=state`;
 
         $.ajax({
             url: url,
@@ -60,15 +60,11 @@ const MetaLocatorSampleApp = {
             timeout: 10000,
             success: (data) => {
                 const stateSelect = $('#state');
-                // API may return a top-level array or an object with a `data` array.
-                // Each item may be a plain string or an object with a `state`, `value`, or `name` property.
-                const items = Array.isArray(data) ? data : (data && Array.isArray(data.data) ? data.data : []);
-                const uniqueStates = [...new Set(items.map(item => {
-                    return (typeof item === 'string') ? item : (item.state || item.value || item.name || '');
-                }).filter(Boolean))].sort();
 
-                uniqueStates.forEach(state => {
-                    stateSelect.append($('<option></option>').val(state).text(state));
+                const items = Array.isArray(data?.results) ? data?.results : [];
+
+                items.forEach(item => {
+                    stateSelect.append($('<option></option>').val(item.value).text(item.text));
                 });
 
                 stateSelect.prop('disabled', false);
