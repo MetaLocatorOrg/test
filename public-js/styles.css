@@ -65,6 +65,11 @@ main {
     color: #555;
 }
 
+.required {
+    color: #c62828;
+    margin-left: 2px;
+}
+
 .form-group input {
     width: 100%;
     padding: 10px;
