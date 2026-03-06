@@ -5,6 +5,8 @@
 .DS_Store
 *.pem
 *.ppk
+private-php/config.php
+public-js/config.json
 node_modules/
 .vagrant/
 /vendor/

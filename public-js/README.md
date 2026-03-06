@@ -113,7 +113,7 @@ GET https://api.metalocator.com/api/v1/interfaces/{Itemid}/search
 ## Troubleshooting
 
 ### "Please configure your API key"
-- Make sure you've updated the values in to `config.json`
+- Make sure you've updated the values in `config.json`
 - Verify that your API key and Item ID are correctly set in `config.json`
 
 ### "No results found"

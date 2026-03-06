@@ -179,7 +179,7 @@ const MetaLocatorSampleApp = {
                 this.handleSearchSuccess(data, params);
             },
             error: (jqXHR, textStatus, errorThrown) => {
-                this.handleSearchError(textStatus, errorThrown);
+                this.handleSearchError(jqXHR, textStatus, errorThrown);
             },
             complete: () => {
                 $('#search-button').prop('disabled', false);
@@ -211,10 +211,10 @@ const MetaLocatorSampleApp = {
     /**
      * Handle search error
      */
-    handleSearchError: function(textStatus, errorThrown) {
+    handleSearchError: function(jqXHR, textStatus, errorThrown) {
         console.error('Search error:', textStatus, errorThrown);
-        let errorMessage = 'Error performing search. ';
-        
+        let errorMessage = 'Error performing search. ' + jqXHR?.responseJSON?.error ?? 'Unknown error';
+
         if (textStatus === 'timeout') {
             errorMessage += 'Request timed out.';
         } else if (textStatus === 'parsererror') {
