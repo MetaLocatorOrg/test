@@ -108,6 +108,59 @@
         </div>
     </div>
 
+    <!-- Review Modal -->
+    <div id="review-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="review-modal-title">
+        <div class="modal-overlay"></div>
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h2 id="review-modal-title">Write a Review</h2>
+                <button class="modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="review-status" class="status-message" style="display:none;"></div>
+                <form id="review-form" novalidate>
+                    <div class="form-group">
+                        <label for="review-title">Review Title:</label>
+                        <input type="text" id="review-title" name="reviewtitle" placeholder="I am a new review" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-fullname">Your Name:</label>
+                        <input type="text" id="review-fullname" name="fullname" placeholder="Mr. Review" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-rating">Rating (0–5):</label>
+                        <input type="number" id="review-rating" name="rating" placeholder="4.5" min="0" max="5" step="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-emailaddress">Your Email:</label>
+                        <input type="email" id="review-emailaddress" name="emailaddress" placeholder="reviewer@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-url">Review URL:</label>
+                        <input type="url" id="review-url" name="url" placeholder="https://metalocator.com/reviews/sample-review-example-url-not-real">
+                    </div>
+                    <div class="form-group">
+                        <label for="review-comments">Comments:</label>
+                        <textarea id="review-comments" name="comments" rows="4" placeholder="This is the body of the review" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="review-custom1">Custom Field 1:</label>
+                        <input type="text" id="review-custom1" name="custom1" placeholder="This is a custom review field value">
+                    </div>
+                    <div class="form-group">
+                        <label for="review-custom2">Custom Field 2:</label>
+                        <input type="text" id="review-custom2" name="custom2" placeholder="">
+                    </div>
+                    <input type="hidden" id="review-published" name="published" value="1">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="review-submit" class="btn btn-accent">Submit Review</button>
+                <button class="btn btn-secondary modal-close-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" 
             integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" 
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>

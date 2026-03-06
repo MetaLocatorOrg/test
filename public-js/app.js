@@ -58,15 +58,25 @@ const MetaLocatorSampleApp = {
             }
         });
 
-        // Modal close handlers
+        // Lead modal close handlers
         $('#lead-modal').on('click', '.modal-close, .modal-close-btn', () => this.closeLeadModal());
         $('#lead-modal .modal-overlay').on('click', () => this.closeLeadModal());
         $(document).on('keydown', (e) => {
-            if (e.key === 'Escape') this.closeLeadModal();
+            if (e.key === 'Escape') {
+                this.closeLeadModal();
+                this.closeReviewModal();
+            }
         });
 
         // Lead form submit
         $('#lead-submit').on('click', () => this.submitLead());
+
+        // Review modal close handlers
+        $('#review-modal').on('click', '.modal-close, .modal-close-btn', () => this.closeReviewModal());
+        $('#review-modal .modal-overlay').on('click', () => this.closeReviewModal());
+
+        // Review form submit
+        $('#review-submit').on('click', () => this.submitReview());
     },
 
     /**
@@ -317,6 +327,11 @@ const MetaLocatorSampleApp = {
         const contactBtn = $('<button class="btn btn-primary btn-contact">Contact</button>');
         contactBtn.on('click', () => this.openLeadModal(location));
         actions.append(contactBtn);
+
+        const reviewBtn = $('<button class="btn btn-accent btn-review">Write Review</button>');
+        reviewBtn.on('click', () => this.openReviewModal(location));
+        actions.append(reviewBtn);
+
         card.append(actions);
         
         return card;
@@ -340,6 +355,101 @@ const MetaLocatorSampleApp = {
     closeLeadModal: function() {
         $('#lead-modal').removeClass('is-open');
         this._leadLocationId = null;
+    },
+
+    /**
+     * Open the review modal for a given location
+     */
+    openReviewModal: function(location) {
+        this._reviewLocationId = location.id || location.location_id || null;
+        $('#review-form')[0].reset();
+        $('#review-status').hide().removeClass('status-success status-error status-info');
+        $('#review-submit').prop('disabled', false).text('Submit Review');
+        $('#review-modal').addClass('is-open');
+        $('#review-modal .modal-dialog').find('input, textarea').first().focus();
+    },
+
+    /**
+     * Close the review modal
+     */
+    closeReviewModal: function() {
+        $('#review-modal').removeClass('is-open');
+        this._reviewLocationId = null;
+    },
+
+    /**
+     * Submit the review form
+     */
+    submitReview: function() {
+        const reviewtitle = $('#review-title').val().trim();
+        const fullname = $('#review-fullname').val().trim();
+        const rating = $('#review-rating').val().trim();
+        const published = $('#review-published').val().trim();
+        const emailaddress = $('#review-emailaddress').val().trim();
+        const url = $('#review-url').val().trim();
+        const comments = $('#review-comments').val().trim();
+        const custom1 = $('#review-custom1').val().trim();
+        const custom2 = $('#review-custom2').val().trim();
+
+        if (!reviewtitle || !fullname || !rating || !emailaddress || !comments) {
+            this.showReviewStatus('Please fill in all required fields (Title, Name, Rating, Email, Comments).', 'error');
+            return;
+        }
+
+        const payload = {
+            reviewtitle,
+            fullname,
+            rating,
+            published,
+            emailaddress,
+            url,
+            contactfield: 'email',
+            comments,
+            custom1,
+            custom2,
+            location_id: this._reviewLocationId
+        };
+
+        const apiUrl = `${this.config.apiBaseUrl}/interfaces/${this.config.itemId}/reviews`;
+
+        $('#review-submit').prop('disabled', true).text('Submitting...');
+
+        $.ajax({
+            url: apiUrl,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            headers: {
+                'X-API-Key': this.config.apiKey
+            },
+            timeout: 10000,
+            success: (data) => {
+                const createdId = data?.id ?? data?.review_id ?? null;
+                const successMsg = createdId
+                    ? `Review submitted successfully! Review ID: ${createdId}`
+                    : 'Review submitted successfully!';
+                this.showReviewStatus(successMsg, 'success');
+                $('#review-form')[0].reset();
+                $('#review-submit').text('Submitted');
+            },
+            error: (jqXHR) => {
+                const errMsg = (jqXHR.responseJSON && jqXHR.responseJSON.error)
+                    ? jqXHR.responseJSON.error
+                    : 'An error occurred. Please try again.';
+                this.showReviewStatus('Error: ' + errMsg, 'error');
+                $('#review-submit').prop('disabled', false).text('Submit Review');
+            }
+        });
+    },
+
+    /**
+     * Show a status message inside the review modal
+     */
+    showReviewStatus: function(message, type) {
+        const el = $('#review-status');
+        el.removeClass('status-success status-error status-info status-warning');
+        el.addClass('status-' + type);
+        el.text(message).show();
     },
 
     /**

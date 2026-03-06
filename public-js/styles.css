@@ -288,6 +288,22 @@ footer a:hover {
     border-top: 1px solid #e0e0e0;
 }
 
+.btn-accent {
+    background-color: #43a047;
+    color: white;
+}
+
+.btn-accent:hover:not(:disabled) {
+    background-color: #388e3c;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(67, 160, 71, 0.4);
+}
+
+.btn-accent:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
 /* Modal */
 .modal {
     display: none;
