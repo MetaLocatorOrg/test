@@ -57,6 +57,16 @@ const MetaLocatorSampleApp = {
                 this.performSearch();
             }
         });
+
+        // Modal close handlers
+        $('#lead-modal').on('click', '.modal-close, .modal-close-btn', () => this.closeLeadModal());
+        $('#lead-modal .modal-overlay').on('click', () => this.closeLeadModal());
+        $(document).on('keydown', (e) => {
+            if (e.key === 'Escape') this.closeLeadModal();
+        });
+
+        // Lead form submit
+        $('#lead-submit').on('click', () => this.submitLead());
     },
 
     /**
@@ -302,8 +312,101 @@ const MetaLocatorSampleApp = {
         }
 
         card.append(details);
+
+        const actions = $('<div class="location-card-actions"></div>');
+        const contactBtn = $('<button class="btn btn-primary btn-contact">Contact</button>');
+        contactBtn.on('click', () => this.openLeadModal(location));
+        actions.append(contactBtn);
+        card.append(actions);
         
         return card;
+    },
+
+    /**
+     * Open the lead modal for a given location
+     */
+    openLeadModal: function(location) {
+        this._leadLocationId = location.id || location.location_id || null;
+        $('#lead-form')[0].reset();
+        $('#lead-status').hide().removeClass('status-success status-error status-info');
+        $('#lead-submit').prop('disabled', false).text('Send');
+        $('#lead-modal').addClass('is-open');
+        $('#lead-modal .modal-dialog').find('input, textarea').first().focus();
+    },
+
+    /**
+     * Close the lead modal
+     */
+    closeLeadModal: function() {
+        $('#lead-modal').removeClass('is-open');
+        this._leadLocationId = null;
+    },
+
+    /**
+     * Submit the lead form
+     */
+    submitLead: function() {
+        const subject = $('#lead-subject').val().trim();
+        const fromname = $('#lead-fromname').val().trim();
+        const fromemail = $('#lead-fromemail').val().trim();
+        const fromphone = $('#lead-fromphone').val().trim();
+        const message = $('#lead-message').val().trim();
+        const custom1 = $('#lead-custom1').val().trim();
+        const custom2 = $('#lead-custom2').val().trim();
+
+        if (!subject || !fromname || !fromemail || !message) {
+            this.showLeadStatus('Please fill in all required fields (Subject, Name, Email, Message).', 'error');
+            return;
+        }
+
+        const payload = {
+            subject,
+            fromname,
+            fromemail,
+            fromphone,
+            contactfield: 'email',
+            message,
+            custom1,
+            custom2,
+            location_id: this._leadLocationId
+        };
+
+        const url = `${this.config.apiBaseUrl}/interfaces/${this.config.itemId}/leads`;
+
+        $('#lead-submit').prop('disabled', true).text('Sending...');
+
+        $.ajax({
+            url: url,
+            method: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(payload),
+            headers: {
+                'X-API-Key': this.config.apiKey
+            },
+            timeout: 10000,
+            success: () => {
+                this.showLeadStatus('Your message has been sent successfully!', 'success');
+                $('#lead-form')[0].reset();
+                $('#lead-submit').text('Sent');
+            },
+            error: (jqXHR) => {
+                const errMsg = (jqXHR.responseJSON && jqXHR.responseJSON.error)
+                    ? jqXHR.responseJSON.error
+                    : 'An error occurred. Please try again.';
+                this.showLeadStatus('Error: ' + errMsg, 'error');
+                $('#lead-submit').prop('disabled', false).text('Send');
+            }
+        });
+    },
+
+    /**
+     * Show a status message inside the lead modal
+     */
+    showLeadStatus: function(message, type) {
+        const el = $('#lead-status');
+        el.removeClass('status-success status-error status-info status-warning');
+        el.addClass('status-' + type);
+        el.text(message).show();
     },
 
     /**
