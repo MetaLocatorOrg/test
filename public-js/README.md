@@ -24,18 +24,18 @@ A simple, self-contained HTML/JavaScript application that demonstrates how to us
 2. **Edit `config.json` and add your credentials:**
    ```json
    {
-     "apiKey": "your-actual-api-key-here",
-     "itemId": "your-item-id-here",
-     "apiBaseUrl": "https://metalocator.com/webapi/api",
+     "apiKey": "your-actual-public-scoped-api-key-here",
+     "itemId": "your-interface-id-here",
+     "apiBaseUrl": "https://api.metalocator.com/api/v1",
      "rateLimitPerMinute": 60,
      "defaultRadius": 25,
      "defaultLimit": 10
    }
    ```
 
-   - `apiKey`: Your MetaLocator API key
-   - `itemId`: Your MetaLocator Item ID (Itemid parameter)
-   - `apiBaseUrl`: The base URL for the MetaLocator API (usually `https://metalocator.com/webapi/api`)
+   - `apiKey`: Your MetaLocator API key, obtained from the MetaLocator dashboard under Profile > API Keys
+   - `itemId`: Your MetaLocator Interface ID Number, obtained from the MetaLocator dashboard under Interfaces.
+   - `apiBaseUrl`: The base URL for the MetaLocator API (usually `https://api.metalocator.com/api/v1`)
    - `rateLimitPerMinute`: Maximum number of requests per minute (default: 60)
    - `defaultRadius`: Default search radius in miles (default: 25)
    - `defaultLimit`: Default maximum number of results (default: 10)
@@ -86,19 +86,17 @@ The application implements client-side rate limiting to help prevent exceeding A
 The application calls the MetaLocator search API:
 
 ```
-GET https://metalocator.com/webapi/api/search
+GET https://api.metalocator.com/api/v1/interfaces/{Itemid}/search
 ```
 
 ### Parameters
 
-- `apikey` (required) - Your API key
+- `apikey` (required) - Your Public-scoped API key
 - `Itemid` (required) - Your Item ID
 - `postal_code` - Search postal code
 - `radius` - Search radius in miles
 - `limit` - Maximum number of results
 - `keyword` - Optional keyword filter
-- `format=json` - Response format
-- `no_html=1` - Return data only without HTML
 
 ## Browser Compatibility
 
@@ -109,15 +107,13 @@ GET https://metalocator.com/webapi/api/search
 
 ## Security Notes
 
-- Keep your `config.json` file private (it's in .gitignore)
-- Never commit API keys to version control
-- The API key is exposed in client-side code - use appropriate API key restrictions
+- The API key is exposed in client-side code.  Ensure you are using a public-scoped key.
 - This is a sample application for demonstration purposes
 
 ## Troubleshooting
 
 ### "Please configure your API key"
-- Make sure you've copied `config.example.json` to `config.json`
+- Make sure you've updated the values in `config.json`
 - Verify that your API key and Item ID are correctly set in `config.json`
 
 ### "No results found"
@@ -125,9 +121,8 @@ GET https://metalocator.com/webapi/api/search
 - Increase the search radius
 - Verify that your API credentials have access to location data
 
-### CORS/JSONP errors
-- The application uses JSONP to handle cross-origin requests
-- Make sure your API key has the appropriate permissions
+### CORS errors
+- Make sure your API key is configured with `public` scope.
 
 ### Rate limit exceeded
 - Wait for the specified time before making more requests
@@ -136,11 +131,11 @@ GET https://metalocator.com/webapi/api/search
 ## API Documentation
 
 For more information about the MetaLocator API, visit:
-[https://metalocator.com/api-documentation](https://metalocator.com/api-documentation)
+[https://metalocator.portal.swaggerhub.com/](https://metalocator.portal.swaggerhub.com/)
 
 ## Support
 
-For issues with the MetaLocator API or service, contact MetaLocator support.
+For issues with the MetaLocator API or service, contact MetaLocator support. 
 
 ## License
 
