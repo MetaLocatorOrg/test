@@ -28,6 +28,7 @@ $requiredFiles = [
     'config.example.php',
     'sample_locations.csv',
     'import.php',
+    'data-operations.php',
     'README.md'
 ];
 
@@ -89,6 +90,18 @@ if ($returnCode !== 0) {
 }
 echo "   ✓ PASS: import.php has no syntax errors\n";
 
+// Test 7: Check data-operations.php syntax
+echo "\n7. Checking data-operations.php syntax...\n";
+$output = [];
+$returnCode = 0;
+exec('php -l ' . __DIR__ . '/data-operations.php 2>&1', $output, $returnCode);
+if ($returnCode !== 0) {
+    echo "   ✗ FAIL: Syntax error in data-operations.php\n";
+    echo "   " . implode("\n   ", $output) . "\n";
+    exit(1);
+}
+echo "   ✓ PASS: data-operations.php has no syntax errors\n";
+
 // Summary
 echo "\n" . str_repeat("=", 50) . "\n";
 echo "All tests passed! ✓\n";
@@ -97,4 +110,5 @@ echo "Next steps:\n";
 echo "  1. Copy config.example.php to config.php\n";
 echo "  2. Edit config.php with your API credentials\n";
 echo "  3. Run: php import.php\n";
+echo "  4. Run: php data-operations.php\n";
 echo "\n";
