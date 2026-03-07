@@ -44,7 +44,7 @@ foreach ($requiredFiles as $file) {
 echo "\n4. Verifying CSV file structure...\n";
 $csvFile = __DIR__ . '/sample_locations.csv';
 $handle = fopen($csvFile, 'r');
-$headers = fgetcsv($handle,',', '"', escape: "");
+$headers = fgetcsv($handle);
 $expectedHeaders = ['Name', 'Description', 'Address', 'Address2', 'City', 'State', 'PostalCode', 'Phone', 'Country', 'Link', 'Email', 'category1', 'category2', 'category3', 'Monday Hours', 'Tuesday Hours', 'Wednesday Hours', 'Thursday Hours', 'Friday Hours', 'Saturday Hours', 'Sunday Hours', 'published'];
 
 // Check if essential headers are present (not all need to be in exact order)
@@ -58,7 +58,7 @@ echo "   ✓ PASS: CSV headers include essential fields\n";
 
 // Count rows
 $rowCount = 0;
-while (($row = fgetcsv($handle, ',','"', escape: "")) !== false) {
+while (($row = fgetcsv($handle)) !== false) {
     $rowCount++;
 }
 fclose($handle);

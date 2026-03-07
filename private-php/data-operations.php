@@ -62,9 +62,13 @@ function api_request($method, $url, $config, $data = null) {
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_TIMEOUT, 30);
 
+    // don't use these in production, but you already knew that 😀
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+
     $headers = [
         'Accept: application/json',
-        'X-API-Key: ' . $config['api_key'],
+        'x-api-key: ' . $config['api_key'],
     ];
 
     if ($data !== null) {
