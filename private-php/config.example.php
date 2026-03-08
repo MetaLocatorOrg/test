@@ -23,4 +23,16 @@ return [
     
     // Debug mode (set to true to see detailed output)
     'debug' => true,
+
+    // import mode,
+    // https://support.metalocator.com/en/articles/1655854-introduction-to-importing-data#import-options
+    // one of:
+    // update_existing_insert_new
+    // add
+    // skip_existing_insert_new
+    // update_existing_skip_new
+    // append
+    // delete_matching
+    // For replace, call the /data/bulk operation with DELETE before importing with `add`
+    'mode' => 'update_existing_insert_new'
 ];
