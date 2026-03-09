@@ -9,7 +9,7 @@ A simple, self-contained HTML/JavaScript application that demonstrates how to us
 - ✅ Rate limiting to prevent API quota exhaustion
 - ✅ Configuration file for API credentials
 - ✅ Error handling and user feedback
-- ✅ JSONP support for cross-origin requests
+- ✅ CORS support for cross-origin requests
 - ✅ Search by postal code with radius filtering
 - ✅ Display detailed location information
 - ✅ Real-time rate limit monitoring

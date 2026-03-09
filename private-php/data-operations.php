@@ -174,8 +174,14 @@ function update_record($id, $config) {
     $url = $config['api_base_url'] . '/data/' . $id;
 
     $updatedFields = [
-        'Name'    => 'Sample Location (Updated)',
-        'Phone'   => '555-999-9999',
+        'name'    => 'Sample Location (Updated)',
+        'phone'   => '555-999-9999',
+        // If provided as an array, these tags will REPLACE the categories on the target location.  Tags that do not exist will be created.
+        // 'tags'    => ['New Tag 1', 'New Tag 2', 'New Tag 3', 'New Tag 4'],
+
+        // If provided as sequentially numbered tagX parameters, they will be ADDED to the categories on the target location.  Tags that do not exist will be created.
+        'tag1' => 'New Tag 1',
+        'tag2' => 'New Tag 2'
     ];
 
     log_message("PUT " . $url, $config);
