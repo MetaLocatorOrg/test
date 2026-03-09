@@ -104,8 +104,9 @@ function read_csv_file($filename) {
  * The API supports up to 200 records per request
  */
 function send_locations_to_api($locations, $config) {
-    $mode = $config['mode'] ?? 'update_existing_insert_new';
-    $url = $config['api_base_url'] . '/data/bulk?mode=' . $mode;
+    $mode = isset($config['mode']) ? (string)$config['mode'] : 'update_existing_insert_new';
+    $query = http_build_query(['mode' => $mode]);
+    $url = $config['api_base_url'] . '/data/bulk?' . $query;
 
     // Prepare JSON payload (array of locations)
     $jsonData = json_encode($locations);

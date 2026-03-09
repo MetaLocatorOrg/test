@@ -139,14 +139,18 @@ function create_record($config) {
 
     // Sample record data – adjust fields to match your MetaLocator installation
     $newRecord = [
-        'Name'        => 'Sample Location',
-        'Address'     => '123 Main Street',
-        'City'        => 'Springfield',
-        'State'       => 'IL',
-        'PostalCode'  => '62701',
-        'Country'     => 'US',
-        'Phone'       => '555-555-5555',
+        'name'        => 'Sample Location',
+        'address'     => '123 Main Street',
+        'city'        => 'Springfield',
+        'state'       => 'IL',
+        'postal_code'  => '62701',
+        'country'     => 'US',
+        'tld'     => 'US',
+        'phone'       => '555-555-5555',
         'published'   => '1',
+        'lat'   => '43.03743457164481',
+        'lng'   => '-87.8961181640625',
+        'tags'    => ['New Tag 1', 'New Tag 2', 'New Tag 3', 'New Tag 4']
     ];
 
     log_message("POST " . $url, $config);
