@@ -1,0 +1,11 @@
+<!-- MetaLocator Tab Button Template -->
+<!-- Renders a single tab nav item. The first tab in the group receives the active class. -->
+<li class="nav-item" role="presentation">
+    <a class="nav-link{{#if_first}} active{{/if_first}}"
+       id="{{tab_id}}-tab"
+       data-toggle="tab"
+       href="#{{tab_id}}"
+       role="tab"
+       aria-controls="{{tab_id}}"
+       aria-selected="{{#if_first}}true{{else}}false{{/if_first}}">{{tab_title}}</a>
+</li>

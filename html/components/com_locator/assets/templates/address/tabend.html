@@ -1,0 +1,15 @@
+<!-- MetaLocator Tab End Template -->
+<!-- Closes the tab navigation list and opens a single .tab-content container. -->
+<!-- IMPORTANT: Only ONE .tab-content container must exist per tab group. -->
+<!-- Each .tab-pane must be a direct child of this single container. -->
+</ul>
+<div class="tab-content" id="{{tab_group_id}}-content">
+    {{#each tab_panes}}
+    <div class="tab-pane fade{{#if @first}} show active{{/if}}"
+         id="{{pane_id}}"
+         role="tabpanel"
+         aria-labelledby="{{pane_id}}-tab">
+        {{{pane_content}}}
+    </div>
+    {{/each}}
+</div>
