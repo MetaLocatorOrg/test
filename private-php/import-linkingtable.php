@@ -127,8 +127,8 @@ function api_request($method, $url, $config, $data = null) {
 /**
  * Fetch fields from the /fields API endpoint
  */
-function fetch_fields($config) {
-    $url = $config['api_base_url'] . '/fields';
+function fetch_fields($config, $mltable) {
+    $url = $config['api_base_url'] . '/fields?mltable=' . $mltable;
     log_message("Fetching field configuration from: " . $url, $config);
 
     $result = api_request('GET', $url, $config);
@@ -143,7 +143,7 @@ function fetch_fields($config) {
 
     return [
         'success' => true,
-        'fields' => $result['response'],
+        'fields' => $result['response']['results'],
     ];
 }
 
@@ -175,8 +175,8 @@ function validate_fields($fields, $config) {
 
     foreach ($fields as $field) {
         $fieldName = isset($field['name']) ? $field['name'] : '';
-        $tableName = isset($field['table']) ? $field['table'] : '';
-        $externalKey = isset($field['externalkey']) ? $field['externalkey'] : false;
+        $tableName = isset($field['mltable']) ? $field['mltable'] : '';
+        $externalKey = ($field['type'] == 'externalkey');
 
         // Check for the product column in the products table
         if ($tableName === 'products' && strcasecmp($fieldName, $productColumn) === 0) {
@@ -368,13 +368,20 @@ log_message("Product column: $productColumn", $config);
 
 // Step 1: Validate field configuration via /fields API
 echo "Step 1: Validating account field configuration...\n";
-$fieldsResult = fetch_fields($config);
+$locationsFieldsResult = fetch_fields($config,'locations');
 
-if (!$fieldsResult['success']) {
-    die("Error: " . $fieldsResult['error'] . "\n");
+if (!$locationsFieldsResult['success']) {
+    die("Error: " . $locationsFieldsResult['error'] . "\n");
 }
 
-$validation = validate_fields($fieldsResult['fields'], $config);
+$productsFieldsResult = fetch_fields($config,'products');
+
+if (!$productsFieldsResult['success']) {
+    die("Error: " . $productsFieldsResult['error'] . "\n");
+}
+
+$fields = array_merge($locationsFieldsResult['fields'], $productsFieldsResult['fields']);
+$validation = validate_fields($fields, $config);
 
 if (!$validation['valid']) {
     echo "\n✗ Field validation failed:\n";
