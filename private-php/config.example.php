@@ -34,5 +34,15 @@ return [
     // append
     // delete_matching
     // For replace, call the /data/bulk operation with DELETE before importing with `add`
-    'mode' => 'update_existing_insert_new'
+    'mode' => 'update_existing_insert_new',
+
+    // Linking table import settings
+    // CSV file path for linking table import (relative to this script)
+    'linkingtable_csv_file' => 'sample_linkingtable.csv',
+
+    // Column name in the CSV for the location external key (must match a locations table external key field)
+    'linkingtable_location_column' => 'storeno',
+
+    // Column name in the CSV for the product identifier (must match a products table field)
+    'linkingtable_product_column' => 'SKU',
 ];

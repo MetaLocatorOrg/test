@@ -96,6 +96,39 @@ Success Rate: 100%
 ==================================================
 ```
 
+### 5. Run the Linking Table Import
+
+The linking table import associates locations with products using a simple two-column CSV file. Before importing, it validates that your account has the required field configuration.
+
+```bash
+php import-linkingtable.php
+```
+
+You should see output like:
+```
+MetaLocator REST API - Linking Table Import
+==================================================
+
+Step 1: Validating account field configuration...
+✓ Field validation passed:
+  - Products table has 'SKU' column
+  - Locations table has 'storeno' column (external key)
+
+Step 2: Reading CSV file...
+[2024-01-15 10:35:00] Found 7 linking record(s) to import
+
+Step 3: Importing linking table data...
+[2024-01-15 10:35:01] [1/1] ✓ Success: 7 record(s) imported
+==================================================
+Linking Table Import Summary
+==================================================
+Total Rows: 7
+Successful: 7
+Failed: 0
+Success Rate: 100%
+==================================================
+```
+
 ## Configuration Options
 
 Edit `config.php` to customize these settings:
@@ -137,6 +170,16 @@ Enable/disable detailed logging:
 
 ```php
 'debug' => true,  // Set to false for minimal output
+```
+
+### Linking Table Import
+
+Configure the linking table import columns and CSV file:
+
+```php
+'linkingtable_csv_file' => 'sample_linkingtable.csv',    // Path relative to this directory
+'linkingtable_location_column' => 'storeno',              // Location external key column name
+'linkingtable_product_column' => 'SKU',                   // Product identifier column name
 ```
 
 ## API Endpoints Used
@@ -201,8 +244,10 @@ The application automatically handles batch processing. For very large datasets:
 ## Files in This Package
 
 - `import.php` - Main import script with bulk API support
+- `import-linkingtable.php` - Linking table import script (associates locations with products)
 - `config.example.php` - Example configuration file
 - `sample_locations.csv` - Sample data file with Hours and Category fields
+- `sample_linkingtable.csv` - Sample linking table CSV with storeno and SKU columns
 - `README.md` - This documentation file
 - `test.php` - Verification script
 

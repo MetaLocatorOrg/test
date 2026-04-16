@@ -27,7 +27,9 @@ echo "\n3. Checking required files...\n";
 $requiredFiles = [
     'config.example.php',
     'sample_locations.csv',
+    'sample_linkingtable.csv',
     'import.php',
+    'import-linkingtable.php',
     'data-operations.php',
     'README.md'
 ];
@@ -102,6 +104,55 @@ if ($returnCode !== 0) {
 }
 echo "   ✓ PASS: data-operations.php has no syntax errors\n";
 
+// Test 8: Check import-linkingtable.php syntax
+echo "\n8. Checking import-linkingtable.php syntax...\n";
+$output = [];
+$returnCode = 0;
+exec('php -l ' . __DIR__ . '/import-linkingtable.php 2>&1', $output, $returnCode);
+if ($returnCode !== 0) {
+    echo "   ✗ FAIL: Syntax error in import-linkingtable.php\n";
+    echo "   " . implode("\n   ", $output) . "\n";
+    exit(1);
+}
+echo "   ✓ PASS: import-linkingtable.php has no syntax errors\n";
+
+// Test 9: Verify linking table CSV structure
+echo "\n9. Verifying linking table CSV file structure...\n";
+$ltCsvFile = __DIR__ . '/sample_linkingtable.csv';
+$ltHandle = fopen($ltCsvFile, 'r');
+$ltHeaders = fgetcsv($ltHandle);
+
+if (!in_array('storeno', $ltHeaders) || !in_array('SKU', $ltHeaders)) {
+    echo "   ✗ FAIL: Linking table CSV is missing required headers (storeno, SKU)\n";
+    echo "   Found: " . implode(', ', $ltHeaders) . "\n";
+    exit(1);
+}
+echo "   ✓ PASS: Linking table CSV headers include required fields\n";
+
+if (count($ltHeaders) !== 2) {
+    echo "   ✗ FAIL: Linking table CSV should have exactly 2 columns\n";
+    exit(1);
+}
+echo "   ✓ PASS: Linking table CSV has exactly 2 columns\n";
+
+$ltRowCount = 0;
+while (($ltRow = fgetcsv($ltHandle)) !== false) {
+    $ltRowCount++;
+}
+fclose($ltHandle);
+echo "   ✓ PASS: Found $ltRowCount linking record(s) in CSV\n";
+
+// Test 10: Verify linking table config keys in config.example.php
+echo "\n10. Checking linking table configuration keys...\n";
+$ltRequiredKeys = ['linkingtable_csv_file', 'linkingtable_location_column', 'linkingtable_product_column'];
+foreach ($ltRequiredKeys as $key) {
+    if (!isset($config[$key])) {
+        echo "   ✗ FAIL: Missing config key: $key\n";
+        exit(1);
+    }
+}
+echo "   ✓ PASS: Linking table configuration keys are present\n";
+
 // Summary
 echo "\n" . str_repeat("=", 50) . "\n";
 echo "All tests passed! ✓\n";
@@ -110,5 +161,6 @@ echo "Next steps:\n";
 echo "  1. Copy config.example.php to config.php\n";
 echo "  2. Edit config.php with your API credentials\n";
 echo "  3. Run: php import.php\n";
-echo "  4. Run: php data-operations.php\n";
+echo "  4. Run: php import-linkingtable.php\n";
+echo "  5. Run: php data-operations.php\n";
 echo "\n";
